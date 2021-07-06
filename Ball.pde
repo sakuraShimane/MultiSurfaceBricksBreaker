@@ -28,7 +28,7 @@ void moveBall(){
     // 追記
     soundfile.play(); //かべにあたっときに音をならす
     ballVY = -ballVY;
-    drawPreBlocks();//追加のブロックを描く関数
+    drawPreBlocks();//追加のブロックを描く関数ー＞はいってる
     
     //rect( blockX[i], blockY[i], blockWidth[i], blockHeight[i] );
     /*missCounter++;

@@ -25,6 +25,11 @@ void drawBlocks(){
       rect( blockX[i], blockY[i], blockWidth[i], blockHeight[i] );
     }
   }
+  for( int i = 0; i < MAX_BLOCKS; i++ ){
+   if( ballHitFlag[i] == true ){
+     rect( blockAddX[i], blockAddY[i]-100,  100, 100);
+   }
+ }
 }
 
 /* Step2-3. ブロックの配置処理 */

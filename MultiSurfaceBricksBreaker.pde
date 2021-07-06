@@ -17,6 +17,8 @@ import ddf.minim.ugens.*;*/
 import processing.sound.*;
 SoundFile soundfile;
 
+// 追加のブロック配列がどこか保存する関数
+ int fill = 0;
 /*
 Minim minim;
 AudioPlayer wall;*/
