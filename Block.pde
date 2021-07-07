@@ -3,6 +3,8 @@
  *******************************/
 
 final int MAX_BLOCKS = 208;
+final int BLOCK_ROWS  =  16;  // ブロックの列の要素数　横に何個並ぶか
+final int BLOCK_GAP  =  2;    // ブロックとブロックの間隔
 
 float[] blockX = new float[ MAX_BLOCKS ];
 float[] blockY = new float[ MAX_BLOCKS ];
@@ -10,9 +12,6 @@ float[] blockY = new float[ MAX_BLOCKS ];
 float[] blockWidth = new float[ MAX_BLOCKS ];
 float[] blockHeight = new float[ MAX_BLOCKS ];
 boolean[] blockHitFlag = new boolean[ MAX_BLOCKS ];
-
-final int BLOCK_ROWS  =  16;  // ブロックの横一列の個数
-final int BLOCK_GAP  =  2;    // ブロックとブロックの間隔
 
 void moveBlocks(){
   // Blockは動かない

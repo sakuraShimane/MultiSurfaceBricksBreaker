@@ -16,8 +16,7 @@ void moveBall(){
   if( ballX > width || ballX < 0 ){
     ballVX = -ballVX;
   }
-  
-  //if  ( ballY > height || ballY < 0 ){    
+   
   if( ballY < 0 ){
     ballVY = - ballVY;
   }
@@ -25,13 +24,19 @@ void moveBall(){
   /* 負け判定 */
   // 下についたとき
   if( ballY > height ){
-    // 追記
-   // soundfile.amp(0.5);
     soundfile.play(); //かべにあたっときに音をならす
-    print("play");
-    under_ballHit++; //下面に当たったら行の数を保持
-    //preBlock
-    drawPreBlocks();//追加のブロックを描く関数ー＞はいってる
+    
+    if( under_ballHit < 39){
+      under_ballHit++; //下面に当たったら行の数を一増やして
+      arrangePreBlocks(); //追加のブロックの配置を追加する関数を呼び出す
+    }
+    else{ //下に落ちまくったらゲームオーバー
+    println( "Game Over!!" );
+    //てとりすのアニメーションみたいなのを流したい
+    }
+    //arrangePreBlocks(); //追加のブロックの配置を追加する関数を呼び出す
+    
+    //drawPreBlocks();//追加のブロックを描く関数ー＞はいってる
     ballVY = -ballVY;
     //rect( blockX[i], blockY[i], blockWidth[i], blockHeight[i] );
     /*missCounter++;

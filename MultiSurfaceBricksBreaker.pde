@@ -87,6 +87,7 @@ void draw(){
   /* Block */
   moveBlocks();
   drawBlocks();
+  drawPreBlocks();
 }
 
 /*
