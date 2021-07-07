@@ -1,97 +1,72 @@
 /***************************************************
+
  K214　知識メディア方法論
- MultiSurfaceBricksBreaker
- https://github.com/sakuraShimane/MultiSurfaceBricksBreaker.git
- 2021年6月29日: ブロック崩しゲームが最低限実装されたVer.
- soundの説明を追加する
  
-テトリスの画像
+ ゲーム名｜PressureBricksBreaker
+ ゲーム概要｜ 落としちゃったボールの個数に応じて迫りくる壁！ 壁に押しつぶされるが先か、すべてのブロックを崩すが先か！ 上下左右の４方向に動くバーをたくみにあやつれ…
+ 
+ 開発者｜Nishikori Sakura
+ 開発日｜2021/07/08
+ 
+ コード構成｜
+ ー　MultiSurfaceBricksBreaker.pde
+ ー　Ball.pde
+ ー　Bar.pde
+ ー　Block.pde
+ ー　PreBlock.pde
+ 
+ テトリスの画像
 https://www.flaticon.com/authors/prettycons
+
  ***************************************************/
 
-// サウンドの再生
+/* サウンドの再生にはminimではなく、Processingの外部ライブラリ「sound」を使いました */
+
 import processing.sound.*;
 SoundFile soundfile;
-SoundFile attackWall;//かべとぶつかったときの音
-SoundFile attackBar;//バーとぶつかったときの音
+SoundFile bgm; //ゲーム中のBGM
+SoundFile attackWall; //ボールと壁の衝突音
+SoundFile attackBar; //ボールとバーの衝突音
 
-PImage img01,img02;
+PImage img01; //背景画像を読み込み
 
-// 追加のブロック配列がどこか保存する関数
- int fill = 0;
- int under_ballHit = 0;// 下面でどこまであたったか保持する関数
- //int scene = 0;
+int under_ballHit = 0; //下の壁にぶつかった回数を保持する関数
  
- String scene = "start";
- 
-void setup(){//実行時１回だけ
-  //size(1280, 1024);
-  size( 800, 1200 );//テトリスの2:3画面をイメージ
-  //size( 700, 1050 );//テトリスの2:3画面をイメージ
-  arrangeBlocks();
+void setup(){ //実行時1回だけ処理される
+  size( 800, 1200 ); //テトリスの2:3画面をイメージした画面サイズを設定
+  arrangeBlocks(); //画面上部に表示される消す対象のブロック配置を初期化する関数を呼び出す
+  
+  /* ゲーム内で使う音声ファイルを読み込む　*/
+  bgm = new SoundFile( this, "bgm.mp3");
   soundfile = new SoundFile(this, "collideWall.mp3");
   attackWall = new SoundFile( this, "attackWall.mp3");
   attackBar = new SoundFile( this, "attackBar.mp3");
   soundfile.amp(0.5); // 音量 0～1
-  //gameInit();
-  img01 = loadImage( "background_m.jpg" );
-  img02 = loadImage( "gameboy.png" );
-  //size( img.width, img.height );
-  //img.resize( img.width/2, img.height/2 );
+  img01 = loadImage( "background_m.jpg" ); //<>// //<>//
+  
+  bgm.play(); //ゲーム中のBGMを再生
+
 }
 
 void draw(){
 
-  common();
-  if( scene == "start" ){
-    start_scene();
-  }
-  image( img01, 0, 0 );
-  //background( 255, 255, 255 ); 
-  
-  //while( keyPressed != true ){//キーおされまち　うまくいかない
-  
-  //fill( random( 255 ), random( 255 ), random( 255 ) );
+  image( img01, 0, 0 ); //背景に画像を設定
+
+  /*　プレッシャー壁の残り枚数を表示　*/
   textSize( 40 );
   text( "Pressure Brick Breaker ", 0, height/2 );
   text( "Remaining"+ ( 10 - under_ballHit ) +"!!", 0, height/2 + 50 );
-  //}
-  
-  
- /* if( scene == 0 ){
-    gameTitle();
-  }
-  else if( scene == 1 ){
-     gamePlay();
-  }
-  else if( scene == 2 ){
-  gameOver();
-  }*/
-
-  
-  //line(barX,0,barX,500);
-  // ellipse( barX, barY, 10, 10);
-  //fill( 255, 0, 0 );
-  //ellipse( ballX, ballY, 10, 10);
-  // line( barX + barWidth, 0, barX + barWidth, 500 );
-  // point( barX, barY );
-  // line( barX, barY, barX, 500 );
   
   /* BallとBarの衝突判定 */
-  if ( ballX >= barX && ballX <= barX + barWidth ) {
-    //if( ballY + ballRadius > barY ){
-    //if( ballY + ballRadius > barY && ballY < barY + ballRadius + barHeight ){
-    if( ballY + ballRadius > barY && ballY - ballRadius < barY + barHeight ){
-      //if( ballY + ballRadius >= barY ){
-      soundfile.amp(0.5);
-      attackBar.play(); //かべにあたっときに音をならす
-      ballVY = - ballVY;
+  if ( ballX >= barX && ballX <= barX + barWidth ) { //Ballがx軸上でBarの幅にかぶっていて
+    if( ballY + ballRadius > barY && ballY - ballRadius < barY + barHeight ){ //y軸上Ballの端とBarがかぶっていたら
+      soundfile.amp(0.5); //0～1の音量範囲のうち0.5の音量で
+      attackBar.play(); //BallとBarの衝突時に効果音を出力する
+      ballVY = - ballVY; //衝突したのでy軸の等速度を変える
     }
   }
-  
-  /* ballと下面から追加のブロックの衝突判定 */
 
-  /* Step2-2. Ballと複数Blockの衝突判定 */
+  /* Ballと複数Blockの衝突判定 */
   for( int i = 0; i < MAX_BLOCKS; i++ ){
     if( blockHitFlag[i] == false ){
       if( ballX > blockX[i] && ballX < blockX[i] + blockWidth[i] ){
@@ -116,51 +91,6 @@ void draw(){
   moveBlocks();
   drawBlocks();
   
-  /* PreBlock */
+  /* PreBlockの配置を指定する関数の呼び出し */
   drawPreBlocks();
 }
-
-void common(){
-  background( 255 );
-}
-
-void start_scene(){
-  fill(0);
-  text("Start", width/5, height/2);
-  text("Press any key", width/5, height/2+60);
- }
- 
-void mousePressed(){ 
-  // ゲームシーンへ遷移
-  if( scene == "start" ) scene = "game"; 
-}
-
-/*
-void gameInit(){
-  scene = 0;
-}
-
-void gameTitle(){
-  //background(255);
-  //fill(0);
-  background( 255, 255, 255 );
-  while( keyPressed != true){//キーおされまち
-  textSize( 20 );
-  text("Title Scene",width/2,height/2);
-  }
-  
-}
-void gamePlay(){
-
-}
-void gameOver(){
-background( 255, 255, 255 );
-}
-*/
-
-/*
-void stop(){
-//  wall.close();
-  minim.stop();
-  //super.stop();
-}*/
