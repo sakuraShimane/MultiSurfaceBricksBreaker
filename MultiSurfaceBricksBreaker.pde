@@ -4,6 +4,9 @@
  https://github.com/sakuraShimane/MultiSurfaceBricksBreaker.git
  2021年6月29日: ブロック崩しゲームが最低限実装されたVer.
  soundの説明を追加する
+ 
+テトリスの画像
+https://www.flaticon.com/authors/prettycons
  ***************************************************/
 
 // サウンドの再生
@@ -12,35 +15,46 @@ SoundFile soundfile;
 SoundFile attackWall;//かべとぶつかったときの音
 SoundFile attackBar;//バーとぶつかったときの音
 
+PImage img01,img02;
+
 // 追加のブロック配列がどこか保存する関数
  int fill = 0;
  int under_ballHit = 0;// 下面でどこまであたったか保持する関数
- int scene = 0;
+ //int scene = 0;
+ 
+ String scene = "start";
  
 void setup(){//実行時１回だけ
-  size(1280, 1024);
+  //size(1280, 1024);
+  size( 800, 1200 );//テトリスの2:3画面をイメージ
+  //size( 700, 1050 );//テトリスの2:3画面をイメージ
   arrangeBlocks();
   soundfile = new SoundFile(this, "collideWall.mp3");
   attackWall = new SoundFile( this, "attackWall.mp3");
   attackBar = new SoundFile( this, "attackBar.mp3");
   soundfile.amp(0.5); // 音量 0～1
   //gameInit();
+  img01 = loadImage( "background_m.jpg" );
+  img02 = loadImage( "gameboy.png" );
+  //size( img.width, img.height );
+  //img.resize( img.width/2, img.height/2 );
 }
 
 void draw(){
 
-  if( under_ballHit >= 10 ){
-    textSize( 40 );
-    text( "GAME OVER!!!!", width/2, height/2 );
-    exit();
+  common();
+  if( scene == "start" ){
+    start_scene();
   }
-  background( 255, 255, 255 ); 
+  image( img01, 0, 0 );
+  //background( 255, 255, 255 ); 
   
   //while( keyPressed != true ){//キーおされまち　うまくいかない
   
   //fill( random( 255 ), random( 255 ), random( 255 ) );
   textSize( 40 );
-  text( "Title Scene", 0, height/2 );
+  text( "Pressure Brick Breaker ", 0, height/2 );
+  text( "Remaining"+ ( 10 - under_ballHit ) +"!!", 0, height/2 + 50 );
   //}
   
   
@@ -105,6 +119,22 @@ void draw(){
   /* PreBlock */
   drawPreBlocks();
 }
+
+void common(){
+  background( 255 );
+}
+
+void start_scene(){
+  fill(0);
+  text("Start", width/5, height/2);
+  text("Press any key", width/5, height/2+60);
+ }
+ 
+void mousePressed(){ 
+  // ゲームシーンへ遷移
+  if( scene == "start" ) scene = "game"; 
+}
+
 /*
 void gameInit(){
   scene = 0;

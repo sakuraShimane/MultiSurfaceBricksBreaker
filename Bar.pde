@@ -67,6 +67,13 @@ void drawBar(){
     barX = 0;
   }
   
+  //上端
+  //if( preBlockNum == 0){
+    if( barY <= barHeight * 13 + BLOCK_GAP * 13){
+      barY = barY - 0;
+    }
+  //}
+  
   //下端にぶつかったら止まる
   if( preBlockNum == 0){
     if( barY + barHeight >= preBlockY[ preBlockNum ] ){

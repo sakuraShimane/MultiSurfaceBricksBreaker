@@ -4,9 +4,9 @@
 
 float ballX = 200.0f;
 float ballY = 300.0f;
-float ballVX = 10.0f;//ぼーるのはやさ
-float ballVY = 10.0f;//ぼーるのはやさ
-float ballRadius = 20.0f;//ボールの半径
+float ballVX = 20.0f;//ぼーるのはやさ
+float ballVY = 15.0f;//ぼーるのはやさ
+float ballRadius = 15.0f;//ボールの半径
 
 int missCounter = 0;
 
@@ -32,6 +32,28 @@ void moveBall(){
   //if( ballY + ballRadius >= height ){
   
   //  
+  /*
+  if(  preBlockNum > 0 ){ //追加ブロックがあるなら、それを基準にはねかえってほしい
+   if( ballY + ballRadius >= preBlockY[ preBlockNum-1 ] ){
+     attackWall.play(); //かべにあたっときに音をならす
+     ballVY = -ballVY;
+   }
+  }
+  */
+ //
+  if( ballY + ballRadius >= height ){ //まだ追加ブロックがないとき
+
+    attackWall.play(); //かべにあたっときに音をならす
+    
+    if( under_ballHit < 10 ){
+      under_ballHit++; //下面に当たったら行の数を一増やして
+      arrangePreBlocks(); //追加のブロックの配置を追加する関数を呼び出す
+    }
+    
+    ballVY = -ballVY;
+  }
+  
+  /*
   if( ballY + ballRadius >= height ){
     
     println( "ballY + ballRadius"+ ( ballY + ballRadius ) );
@@ -41,39 +63,49 @@ void moveBall(){
     println( "preBlockY[ preBlockNum ]" + preBlockY[ preBlockNum-1 ] );
     else
     println( "preBlockY[ preBlockNum ]" + preBlockY[ preBlockNum ] );
-    
-    
+ 
     attackWall.play(); //かべにあたっときに音をならす
     
-    if( under_ballHit <= 39 ){
+    if( under_ballHit < 5 ){
       under_ballHit++; //下面に当たったら行の数を一増やして
       arrangePreBlocks(); //追加のブロックの配置を追加する関数を呼び出す
     }
+    //else{
+      //exit();
+    //}
     
     ballVY = -ballVY;
   }
+  
   //else if( ballY + ballRadius == preBlockY[ preBlockNum ] ){
-  else if( (ballY + ballRadius) - ( preBlockY[ preBlockNum ] ) == 0 ){
+  
+  //ボールと下のブロックが衝突したとき
+  if( (ballY + ballRadius) - ( preBlockY[ preBlockNum ] ) == 0 ){
+  //else if( (ballY + ballRadius) - ( preBlockY[ preBlockNum ] ) == 0 ){
     
     println( "ballY + ballRadius"+ ( ballY + ballRadius ) );
     println( "preBlockNum"+ preBlockNum );
     
-    if( preBlockNum !=0 )
+    if( preBlockNum != 0 )
     println( "preBlockY[ preBlockNum ]" + preBlockY[ preBlockNum-1 ] );
     else
     println( "preBlockY[ preBlockNum ]" + preBlockY[ preBlockNum ] );
     
-    
     attackWall.play(); //かべにあたっときに音をならす
     
-    if( under_ballHit <= 39 ){
+    if( under_ballHit < 5 ){
       under_ballHit++; //下面に当たったら行の数を一増やして
+      println( under_ballHit );
       arrangePreBlocks(); //追加のブロックの配置を追加する関数を呼び出す
     }
+   // else{
+     // exit();
+    //}
     
     ballY = preBlockY[ preBlockNum ];
     ballVY = -ballVY;
   }
+  */
   
   // ボールが増えたブロックと衝突する場合
   /*
