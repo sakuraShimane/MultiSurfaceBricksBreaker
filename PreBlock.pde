@@ -51,8 +51,8 @@ void arrangePreBlocks(){
   
   //while( under_row > 0  ){
   while( i < 16 ){ //1行16個分のブロックをつくる x軸
-    preBlockWidth[ preBlockNum ] = 78.0f;
-    preBlockHeight[ preBlockNum ] = 15.0f;
+    preBlockWidth[ preBlockNum ] = 158.0f;
+    preBlockHeight[ preBlockNum ] = 40.0f;
     preBlockHitFlag[ preBlockNum ] = true;
     preBlockX[ preBlockNum ] = BLOCK_GAP + i % PREBLOCK_ROWS * ( preBlockWidth[ preBlockNum ] + BLOCK_GAP );
     preBlockY[ preBlockNum ] = height - preBlockHeight[ preBlockNum ] * under_ballHit ;

@@ -10,6 +10,8 @@ float barWidth = 200.0f;
 float barHeight = 30.0f;
 
 void moveBar(){
+  
+  /* 左右移動 */
   if( keyPressed ){
     if( keyCode == RIGHT ){
       barX = barX + barVX;
@@ -20,25 +22,25 @@ void moveBar(){
     else if( keyCode == LEFT ){
       barX = barX - barVX;
       //barX = barX - 5;
-      print("left：");
-      print(ballX+"\n");
+      //print("left：");
+      //print(ballX+"\n");
     }
+    
+    /* 上下移動　*/
     else if( keyCode == UP){
       barY = barY - 5;
     }
+    
     else if( keyCode == DOWN ){
       barY = barY + 5;
     }
-    // ここから追加
-    //print(displayWidth);
-    //右端にぶつかったらとまる
+  }//keypressed
+    //上端にぶつかったらとまる
+    /*
     if( barX + barWidth >= width ){
       barX = width - barWidth;
     }
-    //左端にぶつかったら止まる
-    if( barX <= 0 ){
-      barX = 0;
-    }
+    */
     
    /* おいとく　barと下面から追加のブロックの衝突判定 
   //if ( ballX > barX && ballX < barX + barWidth ) {
@@ -50,10 +52,31 @@ void moveBar(){
     }
     }
     */
-  
-  }
 }
 
 void drawBar(){
+    
+
+  //右端にぶつかったらとまる
+  if( barX + barWidth >= width ){
+    barX = width - barWidth;
+  }
+  
+  //左端にぶつかったら止まる
+  if( barX <= 0 ){
+    barX = 0;
+  }
+  
+  //下端にぶつかったら止まる
+  if( preBlockNum == 0){
+    if( barY + barHeight >= preBlockY[ preBlockNum ] ){
+      barY = barY + 0;
+    }
+  }
+  
+  else if( barY + barHeight >= preBlockY[ preBlockNum-1 ] ){
+    barY = preBlockY[ preBlockNum-1 ] - preBlockHeight[ preBlockNum-1 ];
+  }
+  
   rect( barX, barY, barWidth, barHeight );
 }

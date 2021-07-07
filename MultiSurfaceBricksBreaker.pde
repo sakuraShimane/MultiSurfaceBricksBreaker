@@ -29,7 +29,7 @@ void setup(){//実行時１回だけ
 
 void draw(){
 
-  if( under_ballHit >= 5 ){
+  if( under_ballHit >= 10 ){
     textSize( 40 );
     text( "GAME OVER!!!!", width/2, height/2 );
     exit();
@@ -55,10 +55,10 @@ void draw(){
   }*/
 
   
-  line(barX,0,barX,500);
+  //line(barX,0,barX,500);
   // ellipse( barX, barY, 10, 10);
   //fill( 255, 0, 0 );
-  ellipse( ballX, ballY, 10, 10);
+  //ellipse( ballX, ballY, 10, 10);
   // line( barX + barWidth, 0, barX + barWidth, 500 );
   // point( barX, barY );
   // line( barX, barY, barX, 500 );
