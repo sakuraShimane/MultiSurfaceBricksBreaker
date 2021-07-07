@@ -3,6 +3,7 @@
  MultiSurfaceBricksBreaker
  https://github.com/sakuraShimane/MultiSurfaceBricksBreaker.git
  2021年6月29日: ブロック崩しゲームが最低限実装されたVer.
+ soundの説明を追加する
  ***************************************************/
  
 // ライブラリをインポートする　Minim
@@ -19,6 +20,7 @@ SoundFile soundfile;
 
 // 追加のブロック配列がどこか保存する関数
  int fill = 0;
+ int under_ballHit = 0;// 下面でどこまであたったか保持する関数
 /*
 Minim minim;
 AudioPlayer wall;*/
@@ -29,7 +31,7 @@ SoundFile soundfile;*/
 
 //  minim = Minim( this );
   
-void setup(){
+void setup(){//実行時１回だけ
   size(1280, 1024);
   arrangeBlocks();
   soundfile = new SoundFile(this, "collideWall.mp3");
@@ -55,6 +57,7 @@ void draw(){
   // if( ballX > barX - (barWidth/2) && ballX < barX + barWidth ){
     //if( ballY > barY && ballY < barY + barHeight ){
     if( ballY + ballRadius > barY && ballY < barY + ballRadius + barHeight ){
+      soundfile.amp(0.5);
       soundfile.play(); //かべにあたっときに音をならす
       ballVY = - ballVY;
     }

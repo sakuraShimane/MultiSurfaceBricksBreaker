@@ -25,11 +25,23 @@ void drawBlocks(){
       rect( blockX[i], blockY[i], blockWidth[i], blockHeight[i] );
     }
   }
+  
+  /*
+  for( int j = 0; 0 < under_ballHit ; j--){
   for( int i = 0; i < MAX_BLOCKS; i++ ){
-   if( ballHitFlag[i] == true ){
-     rect( blockAddX[i], blockAddY[i]-100,  100, 100);
+     rect( preBlockX[i], preBlockAddY[i]-100,  100, 100);
    }
  }
+ */
+ 
+  /* わたるくんいやってもらったボールが当たったところにブロックが増える処理の表示
+  for( int i = 0; i < MAX_BLOCKS; i++ ){
+   if( ballHitFlag[i] == true ){
+     rect( preBlockX[i], preBlockAddY[i]-100,  100, 100);
+   }
+ }
+ */
+ 
 }
 
 /* Step2-3. ブロックの配置処理 */
