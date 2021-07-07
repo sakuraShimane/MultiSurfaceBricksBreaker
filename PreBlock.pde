@@ -20,18 +20,22 @@ boolean[] preBlockHitFlag = new boolean[ MAX_PREBLOCKS ];//ボールが当たっ
 void drawPreBlocks(){
   print("add ");
   //arrangePreBlocks();//追加ブロックの座標を入れる関数
-  
-  int j = 0;
+    
+  //int j = 0;
  //under_ballHit が0にならない間、一行ふやす
  //while( under_ballHit != 0){
-   while( preBlockHitFlag[ j ] == true ){
+   //while( preBlockHitFlag[ j * 15 ] == true ){ // 行の一番右がtrueならその一行を描画
    //for( int i = 0; i < MAX_PREBLOCKS; pre_i++ ){
      //if( preBlockHitFlag[pre_i] == true ){
-     rect( preBlockX[ j ], preBlockY[ j ], preBlockWidth[ j ], preBlockHeight[ j ] );
+       for( int r = 0; r < MAX_PREBLOCKS ; r++ ){
+         if(  preBlockHitFlag[ r ] == true ){
+           rect( preBlockX[ r ], preBlockY[ r ], preBlockWidth[ r ], preBlockHeight[ r ] );
+         }
+       }
+     //rect( preBlockX[ j ], preBlockY[ j ], preBlockWidth[ j ], preBlockHeight[ j ] );
      //rect( preBlockX[i], preBlockAddY[i]-100,  100, 100);
      //}
-     j++;
-   }
+     //j++;
   // under_ballHit--;
  //}//while終わり
 }
@@ -39,12 +43,14 @@ void drawPreBlocks(){
 /* 追加のブロックの座標の配置処理 */
 void arrangePreBlocks(){
   
+  //print( under_ballHit );
+  
   //int under_row = 0;
   int i = 0;
   //under_row = under_ballHit;
   
   //while( under_row > 0  ){
-  while( i < 16 ){ //2行16個分のブロックをつくる x軸
+  while( i < 16 ){ //1行16個分のブロックをつくる x軸
     preBlockWidth[ preBlockNum ] = 78.0f;
     preBlockHeight[ preBlockNum ] = 15.0f;
     preBlockHitFlag[ preBlockNum ] = true;
@@ -52,12 +58,20 @@ void arrangePreBlocks(){
     preBlockY[ preBlockNum ] = height - preBlockHeight[ preBlockNum ] * under_ballHit ;
     //preBlockY[i] = height + BLOCK_GAP + i / BLOCK_ROWS * ( blockHeight[i] + BLOCK_GAP );
     
+    println( preBlockNum + "個目の配列\n");
+    println("横幅：" + preBlockWidth[ preBlockNum ] + "\n");
+    println("縦幅：" + preBlockHeight[ preBlockNum ] + "\n");
+    println("ボールが当たったフラグ：" + preBlockHitFlag[ preBlockNum ] + "\n");
+    println("ブロックのx座標：" + preBlockX[ preBlockNum ] + "\n");
+    println("ブロックのy座標：" + preBlockY[ preBlockNum ] + "\n");
+        
     preBlockNum++;//ブロックの要素数を1つふやす
-    print(preBlockNum);
+    //print(preBlockNum);
     i++;// x軸を1つ右にずらす
   }
+
   //under_ballHit--;
-  }
+}
 //}
   
 /*

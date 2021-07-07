@@ -40,7 +40,6 @@ void drawBlocks(){
    }
  }
  */
- 
 }
 
 /* Step2-3. ブロックの配置処理 */
